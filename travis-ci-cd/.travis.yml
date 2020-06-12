@@ -5,16 +5,20 @@ jdk:
 -openjdk8
 
 env:
- - MAVEN_VERSION=3.2.5
+  global:
+    - CODECOV_TOKEN=:uuid-repo-token
 
 install:
 - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
 
 script:
-./mvnw clean install
+"mvn cobertura:cobertura"
 
 notification:
 email: 1830912@students.wits.ac.za 
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 
 
