@@ -1,21 +1,17 @@
 language: java
-
-jdk:
--openjdk11
-
-move back to dist: trusty
+dist: trusty
 
 addons:
   sonarcloud:
-    organization: "Emptyiles3-github"
-
-sudo: false # faster builds
-
+    organization: "jafl-github"
+    
+    env:
+    -MAVEN_VERSION=3.3.9
 install:
--eval mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V 
-script: 
--"mvn cobertura:cobertura"
-- sonar-scanner
+-"mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
+script:
+  - "mvn cobertura:cobertura"
+  - sonar-scanner
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
